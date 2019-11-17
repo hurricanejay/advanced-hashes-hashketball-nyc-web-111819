@@ -22,7 +22,7 @@ def game_hash
                    :points => 12,
                    :rebounds => 4,
                    :assists => 7,
-                   :steals => 7,
+                   :steals => 22,
                    :blocks => 15,
                    :slam_dunks => 10
                   },
@@ -52,7 +52,7 @@ def game_hash
                    :points => 6,
                    :rebounds => 12,
                    :assists => 12,
-                   :steals => 22,
+                   :steals => 7,
                    :blocks => 5,
                    :slam_dunks => 12
                   }
@@ -95,7 +95,7 @@ def game_hash
                    :number => 1,
                    :shoe => 19,
                    :points => 26,
-                   :rebounds => 12,
+                   :rebounds => 11,
                    :assists => 6,
                    :steals => 3,
                    :blocks => 8,
@@ -153,15 +153,64 @@ end
  end
  
  def player_numbers(team_name)
+   nums = []
    game_hash.map do |place, team|
      if team[:team_name] == team_name
        team.each do |attributes, data|
        if attributes == :players
          data.each do |player|
-           player[:number]
+           nums << player[:number]
      end
  end
 end
 end
  end
+ nums
  end
+ 
+def player_stats(players_name)
+  new_hash = {}
+  game_hash.each do |place, team|
+    team.each do |attributes, data|
+      if attributes == :players
+        #data.each do |player|
+        game_hash[place][attributes].each do |player|
+          if player[:player_name] == players_name
+            new_hash = player.delete_if do |k, v|
+              k == :player_name
+            end
+          end
+        end
+      end
+    end
+  end
+  new_hash
+end
+
+    def big_shoe_rebounds
+ 	  biggest_shoe = 0
+   num_rebounds = 0
+
+   game_hash.each do |team, game_data|
+     game_data[:players].each do |player|
+       if player[:shoe] > biggest_shoe
+         biggest_shoe = player[:shoe]
+        num_rebounds = player[:rebounds]
+       end
+     end
+   end
+
+   num_rebounds
+ end
+ 
+ def most_points_scored
+   most_points = 0
+   game_hash.each do |team, game_data|
+     game_data[:players].each do |player|
+       if player[:points] > most_points
+         most_points = player[:player_name]
+       end
+     end
+   end
+ end
+ 
