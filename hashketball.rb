@@ -203,13 +203,3 @@ end
    num_rebounds
  end
  
- def most_points_scored
-   most_points = 0
-   game_hash.each do |team, game_data|
-     game_data[:player_name].each do |players|
-       if player_name[:points].max > most_points
-         most_points = players[:player_name]
-       end
-     end
-   end
- end
